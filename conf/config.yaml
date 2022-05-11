@@ -1,0 +1,15 @@
+# directories and paths
+root_dir: '${hydra:runtime.cwd}'
+base_dir: '${root_dir}/data'
+blensor_bin: '${root_dir}/bin/Blensor-1.0.18-Blender-2.79-Winx64/blender.exe'
+
+# runtime setting
+seed: 42  # only used for the dataset splits
+num_query_points_per_shape: 2000
+num_processes: 8  # 16 processes need up to 64 GB RAM for the signed distances
+exclude_bottom: false
+dataset_names: ['helsinki']
+
+# hydra settings
+override hydra/job_logging: colorlog
+override hydra/hydra_logging: colorlog
