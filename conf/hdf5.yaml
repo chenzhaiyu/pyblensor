@@ -3,8 +3,7 @@ dataset_names: ['helsinki']
 
 root_dir: '${hydra:runtime.cwd}'
 base_dir: '${root_dir}/data'
-hdf5_train: 'train.hdf5'
-hdf5_test: 'test.hdf5'
+splits: ['train', 'val', 'test']
 
 # other settings
 num_points: 4096  # fixed number of points in a point cloud
