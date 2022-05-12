@@ -1,3 +1,7 @@
+"""
+Simulated scanning with Blensor.
+"""
+
 import numpy as np
 import os
 import shutil
@@ -11,11 +15,7 @@ import trimesh.repair
 import trimesh.sample
 import trimesh.transformations as trafo
 
-import utils
-import utils_mp
-import file_utils
-import sdf
-import point_cloud
+from utils import sdf, utils_mp, file_utils, point_cloud, utils
 
 import hydra
 from omegaconf import DictConfig
@@ -238,7 +238,7 @@ def sample_blensor(root_dir, base_dir, dataset_dir, blensor_bin, dir_in,
     os.makedirs(dir_abs_blensor, exist_ok=True)
     os.makedirs(dir_abs_pcd, exist_ok=True)
 
-    with open(os.path.join(root_dir, 'blensor_script_template.py'), 'r') as file:
+    with open(os.path.join(root_dir, 'utils/blensor_script_template.py'), 'r') as file:
         blensor_script_template = file.read()
 
     blender_blensor_calls = []
@@ -472,7 +472,6 @@ def get_query_pts_dist_ms(
     """
 
     import os.path
-    import file_utils
 
     dir_in_mesh_abs = os.path.join(base_dir, dataset_dir, dir_in_mesh)
     dir_out_query_pts_abs = os.path.join(base_dir, dataset_dir, dir_out_query_pts_ms)
@@ -693,7 +692,7 @@ scanner_noise_sigma = 0.01
         """)
 
 
-@hydra.main(config_path='./conf', config_name='config')
+@hydra.main(config_path='./conf', config_name='blensor')
 def make_dataset(cfg: DictConfig):
     """
     Make dataset from meshes.

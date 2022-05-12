@@ -1,0 +1,11 @@
+# directories and paths
+dataset_names: ['helsinki']
+
+root_dir: '${hydra:runtime.cwd}'
+base_dir: '${root_dir}/data'
+hdf5_train: 'train.hdf5'
+hdf5_test: 'test.hdf5'
+
+# other settings
+num_points: 4096  # fixed number of points in a point cloud
+num_queries: 2000  # fixed number of query points
