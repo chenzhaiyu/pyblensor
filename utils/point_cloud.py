@@ -1,7 +1,7 @@
 import numpy as np
 import scipy.spatial as spatial
 
-import file_utils
+from . import file_utils
 
 
 def get_aabb(points: np.ndarray):

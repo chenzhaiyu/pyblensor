@@ -1,0 +1,12 @@
+# directories and paths
+mesh_dir: 'data/helsinki/00_base_meshes'
+
+all_set: 'data/helsinki/allset.txt'
+
+train_set: 'data/helsinki/trainset.txt'
+val_set: 'data/helsinki/valset.txt'
+test_set: 'data/helsinki/testset.txt'
+
+# other settings
+num_test: 45
+num_val: 45

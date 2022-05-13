@@ -1,8 +1,8 @@
 import numpy as np
 import os
 
-import utils_mp
-import file_utils
+from . import utils_mp
+from . import file_utils
 
 
 def cartesian_dist(vec_x: np.array, vec_y: np.array, axis=1) -> np.ndarray:

@@ -15,7 +15,8 @@ import trimesh.repair
 import trimesh.sample
 import trimesh.transformations as trafo
 
-from utils import sdf, utils_mp, file_utils, point_cloud, utils
+from utils import utils_mp
+from utils import point_cloud, file_utils, utils, sdf
 
 import hydra
 from omegaconf import DictConfig
@@ -808,9 +809,10 @@ def make_dataset(cfg: DictConfig):
                                        final_out_extension='.npy',
                                        clean_up_dirs=dirs_to_clean, broken_dir='broken')
 
-        make_dataset_splits(base_dir=cfg.base_dir, dataset_dir=dataset_dir,
-                            final_out_dir='04_pts' if only_for_evaluation else'05_query_pts',
-                            seed=cfg.seed, only_test_set=only_for_evaluation, testset_ratio=0.1)
+        if cfg.split_data:
+            make_dataset_splits(base_dir=cfg.base_dir, dataset_dir=dataset_dir,
+                                final_out_dir='04_pts' if only_for_evaluation else'05_query_pts',
+                                seed=cfg.seed, only_test_set=only_for_evaluation, testset_ratio=0.1)
 
 
 if __name__ == '__main__':

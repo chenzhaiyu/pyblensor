@@ -1,5 +1,5 @@
 # directories and paths
-dataset_names: ['helsinki']
+dataset_names: ['helsinki_queries_16384']
 
 root_dir: '${hydra:runtime.cwd}'
 base_dir: '${root_dir}/data'
@@ -7,4 +7,4 @@ splits: ['train', 'val', 'test']
 
 # other settings
 num_points: 4096  # fixed number of points in a point cloud
-num_queries: 2000  # fixed number of query points
+num_queries: 16384  # fixed number of query points
