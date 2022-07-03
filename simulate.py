@@ -693,7 +693,7 @@ scanner_noise_sigma = 0.01
         """)
 
 
-@hydra.main(config_path='./conf', config_name='blensor')
+@hydra.main(config_path='./conf', config_name='blensor', version_base='1.2')
 def make_dataset(cfg: DictConfig):
     """
     Make dataset from meshes.
