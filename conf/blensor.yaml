@@ -1,15 +1,15 @@
 # directories and paths
 root_dir: '${hydra:runtime.cwd}'
-base_dir: '${root_dir}/data'
-blensor_bin: '${root_dir}/bin/Blensor-1.0.18-Blender-2.79-Winx64/blender.exe'
+base_dir: '/workspace/data/helsinki'
+blensor_bin: '/workspace/envs/blensor/blensor_1.0.18-RC10_x64/blender'
 
 # runtime setting
 seed: 42  # only used for the dataset splits
 num_query_points_per_shape: 16384
-num_processes: 12  # 16 processes need up to 64 GB RAM for the signed distances
+num_processes: 40  # 16 processes need up to 64 GB RAM for the signed distances
 exclude_bottom: true
 split_data: false  # split data into [train, val, test] randomly
-dataset_names: ['helsinki_nobottom_queries_16384']
+dataset_names: ['aerial_lidar']
 
 
 # hydra settings
