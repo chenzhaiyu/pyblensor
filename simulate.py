@@ -210,7 +210,7 @@ def _pcd_files_to_pts(pcd_files, pts_file_npy, pts_file, obj_locations, obj_rota
 def sample_blensor(root_dir, base_dir, dataset_dir, blensor_bin, dir_in,
                    dir_out, dir_out_vis, dir_out_pcd, dir_blensor_scripts,
                    num_scans_per_mesh_min, num_scans_per_mesh_max, num_processes, min_pts_size=0,
-                   scanner_noise_sigma_min=0.0, scanner_noise_sigma_max=0.05, exclude_bottom=False):
+                   scanner_noise_sigma_min=0.0, scanner_noise_sigma_max=0.05, perspective='full'):
     """
     Call Blender to use a Blensor script to sample a point cloud from a mesh
     :param base_dir:
@@ -222,6 +222,7 @@ def sample_blensor(root_dir, base_dir, dataset_dir, blensor_bin, dir_in,
     :param num_scans_per_mesh_max: default: 100
     :param scanner_noise_sigma_min: default: 0.0004, rather a lot: 0.01
     :param scanner_noise_sigma_max: default: 0.0004, rather a lot: 0.01
+    :param perspective: default :'full', or 'upper' or 'top'
     :return:
     """
 
@@ -273,12 +274,12 @@ def sample_blensor(root_dir, base_dir, dataset_dir, blensor_bin, dir_in,
             obj_location *= obj_location_rand_factors
             obj_location[1] += 4.0  # offset in cam view dir
 
-            if not exclude_bottom:
+            if perspective == 'full':
                 obj_rotation = trafo.random_quaternion(rnd.rand(3))
 
-            else:
+            elif perspective == 'upper':
                 # simulate drone captured buildings
-                origin, xaxis, yaxis, zaxis = [0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]
+                xaxis, yaxis, zaxis = [1, 0, 0], [0, 1, 0], [0, 0, 1]
                 # for helsinki dataset: 0 < alpha < 3.14, -1.57 < beta < 1.57, -1.57 < gamma < 1.57
                 alpha, beta, gamma = rnd.rand(3) * 3.14
                 beta -= 1.57
@@ -289,6 +290,26 @@ def sample_blensor(root_dir, base_dir, dataset_dir, blensor_bin, dir_in,
                 q = trafo.quaternion_multiply(qx, qy)
                 q = trafo.quaternion_multiply(q, qz)
                 obj_rotation = q
+
+            elif perspective == 'top':
+                # perspective == 'top'
+                # simulate aerial-LiDAR captured buildings
+                xaxis, yaxis, zaxis = [1, 0, 0], [0, 1, 0], [0, 0, 1]
+
+                # todo: change to degree-dependent value from parameter
+                alpha = rnd.rand() * 0.17 - 0.08 + 1.57  # max 5 degree deviation
+                beta = rnd.rand() * 0.08 - 0.04
+                gamma = rnd.rand() * 0.08 - 0.04
+
+                qx = trafo.quaternion_about_axis(alpha, xaxis)
+                qy = trafo.quaternion_about_axis(beta, yaxis)
+                qz = trafo.quaternion_about_axis(gamma, zaxis)
+                q = trafo.quaternion_multiply(qx, qy)
+                q = trafo.quaternion_multiply(q, qz)
+                obj_rotation = q
+
+            else:
+                raise ValueError(f'received perspective "{perspective}", while "full", "upper" or "top" are expected.')
 
             # extend lists of pcd output files
             new_pcd_base_files.append(pcd_base_file)
@@ -776,7 +797,7 @@ def make_dataset(cfg: DictConfig):
                        num_processes=cfg.num_processes,
                        min_pts_size=0 if only_for_evaluation else 5000,
                        scanner_noise_sigma_min=scanner_noise_sigma_min, scanner_noise_sigma_max=scanner_noise_sigma_max,
-                       exclude_bottom=cfg.exclude_bottom)
+                       perspective=cfg.perspective)
 
         if filter_broken_inputs:
             clean_up_broken_inputs(base_dir=cfg.base_dir, dataset_dir=dataset_dir,

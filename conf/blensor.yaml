@@ -7,7 +7,7 @@ blensor_bin: '/workspace/envs/blensor/blensor_1.0.18-RC10_x64/blender'
 seed: 42  # only used for the dataset splits
 num_query_points_per_shape: 16384
 num_processes: 40  # 16 processes need up to 64 GB RAM for the signed distances
-exclude_bottom: true
+perspective: 'top'
 split_data: false  # split data into [train, val, test] randomly
 dataset_names: ['aerial_lidar']
 
