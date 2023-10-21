@@ -11,7 +11,7 @@ import hydra
 from omegaconf import DictConfig
 
 
-@hydra.main(config_path='./conf', config_name='hdf5')
+@hydra.main(config_path='../conf', config_name='hdf5')
 def make_h5(cfg: DictConfig):
     """
     Make hdf5 data.

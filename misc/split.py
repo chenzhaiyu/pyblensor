@@ -10,7 +10,7 @@ import hydra
 from omegaconf import DictConfig
 
 
-@hydra.main(config_path='./conf', config_name='split', version_base='1.2')
+@hydra.main(config_path='../conf', config_name='split', version_base='1.2')
 def get_filelist(cfg: DictConfig):
     mesh_names = glob.glob(cfg.mesh_dir + '/*.obj')
     filelist = []
@@ -20,7 +20,7 @@ def get_filelist(cfg: DictConfig):
         f_out.write('\n'.join(filelist))
 
 
-@hydra.main(config_path='./conf', config_name='split', version_base='1.2')
+@hydra.main(config_path='../conf', config_name='split', version_base='1.2')
 def purge_filelist(cfg: DictConfig):
     with open(cfg.test_set, 'r') as f_test:
         filenames_test = f_test.read().splitlines()

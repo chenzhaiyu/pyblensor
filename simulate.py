@@ -1,5 +1,5 @@
 """
-Simulated scanning with Blensor.
+Simulated scanning with BlenSor.
 """
 
 import numpy as np
